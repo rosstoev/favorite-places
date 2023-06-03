@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import ListPlacesScreen from "./screens/ListPlacesScreen";
 import AddPlaceScreen from "./screens/AddPlaceScreen";
 import PlaceDetailsScreen from "./screens/PlaceDetailsScreen";
