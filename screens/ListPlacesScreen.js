@@ -20,7 +20,7 @@ function ListPlacesScreen({ navigation }) {
   }, [navigation]);
 
   function onPressAddFavoritePlaceHandler() {
-      navigation.navigate("Add a new Place")
+      navigation.navigate("AddPlace")
   }
 
   if (places == null) {
@@ -58,5 +58,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "center",
+    marginHorizontal: 20,
+    justifyContent: "center"
   },
 });

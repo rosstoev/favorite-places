@@ -6,7 +6,7 @@ function ListItem({ place }) {
     const navigation = useNavigation();
 
   function onPressHandler() {
-    navigation.navigate('Place details', {
+    navigation.navigate('PlaceDetails', {
         place : place
     });
   }
@@ -16,7 +16,7 @@ function ListItem({ place }) {
       <Image style={styles.image} source={{ uri: place.imagePath }} />
       <View style={styles.info}>
         <Text style={styles.title}>{place.title}</Text>
-        <Text>{place.address}</Text>
+        <Text style={styles.address}>{place.address}</Text>
       </View>
     </Pressable>
   );
@@ -45,4 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  address: {
+    width: "70%"
+  }
 });

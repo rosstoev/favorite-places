@@ -4,7 +4,7 @@ import { Place } from "../models/Place";
 
 export const PlaceContext = createContext({
     places: [],
-    addPlace: (title, address, imagePath) => {},
+    addPlace: (title, address, imagePath, location) => {},
     removePlace: (id) => {}
 })
 
@@ -12,12 +12,12 @@ function PlaceContextProvider({children}) {
     const [places, setPlaces] = useState(PLACES)
 
 
-    function addPlace(title, address, imagePath){
+    function addPlace(title, address, imagePath, location){
 
         const lastId = places[places.length - 1];
         const index = parseInt(lastId[1]);
         const newId = `p${index + 1}`;
-        const place = new Place(newId, title, address, imagePath);
+        const place = new Place(newId, title, address, imagePath, location);
 
         setPlaces([...places, place]);
     }

@@ -7,6 +7,7 @@ import PlaceDetailsScreen from "./screens/PlaceDetailsScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { Colors } from "./constants/styles";
 import PlaceContextProvider from "./storage/placeContext";
+import Map from "./screens/Map";
 
 const NativeStack = createNativeStackNavigator();
 
@@ -28,16 +29,28 @@ export default function App() {
             }}
           >
             <NativeStack.Screen
-              name="Your Favorite Places"
+              name="ListPlaces"
               component={ListPlacesScreen}
+              options={{
+                title: "Your Favorite Places",
+              }}
             />
             <NativeStack.Screen
-              name="Add a new Place"
+              name="AddPlace"
               component={AddPlaceScreen}
+              options={{ title: "Add new place" }}
             />
             <NativeStack.Screen
-              name="Place details"
+              name="PlaceDetails"
               component={PlaceDetailsScreen}
+              options={{
+                title: "Place details"
+              }}
+            />
+            <NativeStack.Screen
+              name="Map"
+              component={Map}
+              options={{ title: "Map" }}
             />
           </NativeStack.Navigator>
         </NavigationContainer>

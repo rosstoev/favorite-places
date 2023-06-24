@@ -10,11 +10,13 @@ import DeviceInput from "./DeviceInput";
 import IconTextButton from "./IconTextButton";
 import { Colors } from "../../constants/styles";
 import { getStaticMapUrl, requestStaticMap } from "../../api/map";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-function LocationPicker() {
+function LocationPicker({ selectedLocation, setPickedLocation }) {
   const [location, setLocation] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [permissions, requestLocationPermission] = useForegroundPermissions();
+  const navigation = useNavigation();
 
   async function verifiLocationPermission() {
     if (permissions.status !== PermissionStatus.GRANTED) {
@@ -46,11 +48,22 @@ function LocationPicker() {
         lat: result.coords.latitude,
         long: result.coords.longitude,
       });
+      setPickedLocation({
+        lat: result.coords.latitude,
+        long: result.coords.longitude,
+      });
     } catch (error) {
       Alert.alert("Alert", "The application cann't get your location");
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (selectedLocation) {
+      const imageUrl = getStaticMapUrl(selectedLocation);
+      setImageUrl(imageUrl);
+    }
+  }, [selectedLocation]);
 
   useEffect(() => {
     if (location) {
@@ -59,7 +72,9 @@ function LocationPicker() {
     }
   }, [location]);
 
-  function onPressPickedOnMapHandler() {}
+  function onPressPickedOnMapHandler() {
+    navigation.navigate("Map");
+  }
 
   let previewComponent = (
     <Text style={styles.emptyText}>No picked location yet.</Text>

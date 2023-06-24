@@ -11,7 +11,7 @@ import DeviceInput from "./ui/DeviceInput";
 import { Colors } from "../constants/styles";
 import IconTextButton from "./ui/IconTextButton";
 
-function ImagePicker() {
+function ImagePicker({setPickedImage}) {
   const [image, setImage] = useState(null);
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
 
@@ -49,6 +49,7 @@ function ImagePicker() {
       });
 
       setImage(result.uri);
+      setPickedImage(result.uri);
     } catch (error) {
       Alert.alert("Error", "Cann't make image right now.");
       console.log(error);

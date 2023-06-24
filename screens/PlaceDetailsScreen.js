@@ -14,7 +14,9 @@ function PlaceDetailsScreen({route, navigation}){
     }, [navigation, place])
 
     function onPressMapHandler() {
-
+        navigation.navigate("Map", {
+            initLocation: place.location
+        })
     }
 
     return <View style={styles.container}>
@@ -39,6 +41,7 @@ const styles = StyleSheet.create({
     },
     infoSection: {
         marginTop: 20,
+        marginHorizontal: 10
     },
     address: {
         color: Colors.secondaryLight,
