@@ -1,6 +1,11 @@
 import { Text, StyleSheet, View, Alert, Image } from "react-native";
 import { useState } from "react";
-import {launchCameraAsync, useCameraPermissions, PermissionStatus, MediaTypeOptions} from 'expo-image-picker';
+import {
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+  MediaTypeOptions,
+} from "expo-image-picker";
 
 import DeviceInput from "./ui/DeviceInput";
 import { Colors } from "../constants/styles";
@@ -10,16 +15,19 @@ function ImagePicker() {
   const [image, setImage] = useState(null);
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
 
-  async function verifyCameraPermission(){
+  async function verifyCameraPermission() {
     if (cameraPermission.status != PermissionStatus.GRANTED) {
-        const response = await requestCameraPermission();
+      const response = await requestCameraPermission();
 
-        return  response.granted;
+      return response.granted;
     }
 
     if (cameraPermission.status === PermissionStatus.DENIED) {
-        Alert.alert('Insufficient Permissions!', 'You need to grand camera permissions to use this app.');
-        return false;
+      Alert.alert(
+        "Insufficient Permissions!",
+        "You need to grand camera permissions to use this app."
+      );
+      return false;
     }
 
     return true;
@@ -29,27 +37,32 @@ function ImagePicker() {
     const hasPermissions = await verifyCameraPermission();
 
     if (!hasPermissions) {
-        return;
+      return;
     }
 
-    const result = await launchCameraAsync({
+    try {
+      const result = await launchCameraAsync({
         mediaTypes: MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [16, 9],
-        quality: 0.6
-    }).catch((message) => {
-        Alert.alert('Error', 'Cann\'t make image right now.');
-        console.log(message)
-        return;
-    });
+        quality: 0.6,
+      });
 
-    setImage(result.uri);
+      setImage(result.uri);
+    } catch (error) {
+      Alert.alert("Error", "Cann't make image right now.");
+      console.log(error);
+    }
   }
 
-  let renderComponent = <Text style={styles.emptyText}>No image picked yet.</Text>;
+  let renderComponent = (
+    <Text style={styles.emptyText}>No image picked yet.</Text>
+  );
 
   if (image) {
-    renderComponent = <Image style={styles.previewImage}  source={{uri:image}}/>;
+    renderComponent = (
+      <Image style={styles.previewImage} source={{ uri: image }} />
+    );
   }
 
   return (
@@ -73,6 +86,6 @@ const styles = StyleSheet.create({
   },
   previewImage: {
     width: "100%",
-    height: "100%"
-  }
+    height: "100%",
+  },
 });
