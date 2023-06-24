@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Alert, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import IconButton from "../components/ui/IconButton";
-import { useRoute } from "@react-navigation/native";
 
 function Map({ navigation, route }) {
   const initLocation = route.params && route.params.initLocation;
