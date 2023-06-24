@@ -5,11 +5,10 @@ import { useState } from "react";
 import DeviceInput from "./ui/DeviceInput";
 import IconTextButton from "./ui/IconTextButton";
 import TextButton from "./ui/TextButton";
+import ImagePicker from "./ImagePicker";
 
 function AddPlaceForm() {
   const [title, setTitle] = useState("");
-
-  function onPressTakeImageHandler() {}
 
   function onPressLocateUserHandler() {}
 
@@ -20,13 +19,8 @@ function AddPlaceForm() {
   return (
     <View>
       <Input label="Title" value={title} onChangeValue={setTitle} />
-      <DeviceInput emptyLabel="No image taken yet." />
-      <IconTextButton
-        icon="camera"
-        title="Take Image"
-        onPress={onPressTakeImageHandler}
-      />
-      <DeviceInput emptyLabel="No location picked yet." />
+      <ImagePicker />
+      <DeviceInput/>
       <View style={styles.rowButtons}>
         <IconTextButton
           icon="location"
