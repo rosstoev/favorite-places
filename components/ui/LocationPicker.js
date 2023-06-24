@@ -2,9 +2,9 @@ import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
-  PermissionStatus
+  PermissionStatus,
 } from "expo-location";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import DeviceInput from "./DeviceInput";
 import IconTextButton from "./IconTextButton";
@@ -42,15 +42,22 @@ function LocationPicker() {
 
     try {
       const result = await getCurrentPositionAsync();
-      setLocation({lat: result.coords.latitude, long: result.coords.longitude})
-      const imageUrl = getStaticMapUrl(location);
-      setImageUrl(imageUrl);
-
+      setLocation({
+        lat: result.coords.latitude,
+        long: result.coords.longitude,
+      });
     } catch (error) {
       Alert.alert("Alert", "The application cann't get your location");
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (location) {
+      const imageUrl = getStaticMapUrl(location);
+      setImageUrl(imageUrl);
+    }
+  }, [location]);
 
   function onPressPickedOnMapHandler() {}
 
@@ -59,7 +66,9 @@ function LocationPicker() {
   );
 
   if (imageUrl) {
-    previewComponent = <Image style={styles.imagePreview} source={{uri: imageUrl}}/>
+    previewComponent = (
+      <Image style={styles.imagePreview} source={{ uri: imageUrl }} />
+    );
   }
 
   return (
@@ -96,5 +105,5 @@ const styles = StyleSheet.create({
   imagePreview: {
     width: "100%",
     height: "100%",
-  }
+  },
 });
