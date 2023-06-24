@@ -2,17 +2,12 @@ import { StyleSheet, View } from "react-native";
 
 import Input from "./ui/Input";
 import { useState } from "react";
-import DeviceInput from "./ui/DeviceInput";
-import IconTextButton from "./ui/IconTextButton";
 import TextButton from "./ui/TextButton";
 import ImagePicker from "./ImagePicker";
+import LocationPicker from "./ui/LocationPicker";
 
 function AddPlaceForm() {
   const [title, setTitle] = useState("");
-
-  function onPressLocateUserHandler() {}
-
-  function onPressPickedOnMapHandler() {}
 
   function onPressAddPlaceHandler(){}
 
@@ -20,19 +15,7 @@ function AddPlaceForm() {
     <View>
       <Input label="Title" value={title} onChangeValue={setTitle} />
       <ImagePicker />
-      <DeviceInput/>
-      <View style={styles.rowButtons}>
-        <IconTextButton
-          icon="location"
-          title="Locate User"
-          onPress={onPressLocateUserHandler}
-        />
-        <IconTextButton
-          icon="map"
-          title="Pick on Map"
-          onPress={onPressPickedOnMapHandler}
-        />
-      </View>
+      <LocationPicker />
       <TextButton onPress={onPressAddPlaceHandler} label="Add place" />
     </View>
   );
@@ -41,9 +24,5 @@ function AddPlaceForm() {
 export default AddPlaceForm;
 
 const styles = StyleSheet.create({
-  rowButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10
-  },
+  
 });
