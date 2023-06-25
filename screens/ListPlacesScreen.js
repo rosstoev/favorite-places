@@ -1,26 +1,40 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { Colors } from "../constants/styles";
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useLayoutEffect, useState, useEffect } from "react";
 
 import { PlaceContext } from "../storage/placeContext";
 
 import ListItem from "../components/ListItem";
 import IconButton from "../components/ui/IconButton";
+import { fetchPlaces } from "../util/database";
 
 function ListPlacesScreen({ navigation }) {
   const placeContext = useContext(PlaceContext);
-  const places = placeContext.places;
+  const [places, setPlaces] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
-        <IconButton icon="add" size={24} color={tintColor} onPress={onPressAddFavoritePlaceHandler} />
+        <IconButton
+          icon="add"
+          size={24}
+          color={tintColor}
+          onPress={onPressAddFavoritePlaceHandler}
+        />
       ),
     });
   }, [navigation]);
 
+  useEffect(() => {
+    async function getPlaces() {
+      const places = await fetchPlaces();
+      setPlaces(places);
+    }
+    getPlaces();
+  }, []);
+
   function onPressAddFavoritePlaceHandler() {
-      navigation.navigate("AddPlace")
+    navigation.navigate("AddPlace");
   }
 
   if (places == null) {
@@ -59,6 +73,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginHorizontal: 20,
-    justifyContent: "center"
+    justifyContent: "center",
   },
 });

@@ -8,10 +8,31 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Colors } from "./constants/styles";
 import PlaceContextProvider from "./storage/placeContext";
 import Map from "./screens/Map";
+import { useCallback, useEffect, useState } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { initTables } from "./util/database";
 
 const NativeStack = createNativeStackNavigator();
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [isDbInitialized, setDbInitialize] = useState(false);
+
+  async function hideLoadingScreen() {
+    await SplashScreen.hideAsync();
+  }
+
+  useEffect(() => {
+    initTables()
+      .then((result) => {
+        setDbInitialize(true);
+        hideLoadingScreen();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [isDbInitialized]);
+
   return (
     <>
       <StatusBar style="auto" />
@@ -44,7 +65,7 @@ export default function App() {
               name="PlaceDetails"
               component={PlaceDetailsScreen}
               options={{
-                title: "Place details"
+                title: "Place details",
               }}
             />
             <NativeStack.Screen

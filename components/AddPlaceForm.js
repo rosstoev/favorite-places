@@ -8,6 +8,8 @@ import ImagePicker from "./ImagePicker";
 import LocationPicker from "./ui/LocationPicker";
 import { requestGeocodingByCoordinates } from "../api/map";
 import { PlaceContext } from "../storage/placeContext";
+import { insertPlace } from "../util/database";
+import { Place } from "../models/Place";
 
 function AddPlaceForm() {
   const [title, setTitle] = useState("");
@@ -35,10 +37,12 @@ function AddPlaceForm() {
     try {
       const geocoding = await requestGeocodingByCoordinates(pickedLocation);
       const address = geocoding.results[0].formatted;
-      placeContext.addPlace(title, address, pickedImage, pickedLocation);
+      // placeContext.addPlace(title, address, pickedImage, pickedLocation);
+      const place = new Place(null, title, address, pickedImage, pickedLocation);
+      await insertPlace(place);
       navigation.navigate('ListPlaces');
     } catch(error) {
-      Alert.alert('Location problem', 'Something went wrong with picked location!')
+      Alert.alert('Place problem', 'Something went wrong when saving place procces!')
     }
   }
 
